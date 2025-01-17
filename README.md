@@ -4,6 +4,10 @@ A neural network implementation written in pure Java using no additional librari
 
 Note that batch processing is not implemented, and each "observation" is fed to the network separately, which makes training quite inefficient, but perhaps a little bit easier to understand. 
 
+This project was inspired by:
+
+https://www.youtube.com/@independentcode
+
 ## XOR Example
 
 The XOR function is a nice way of testing the implementation, since it is very well known and compact. Additionally, a solution cannot be represented by a linear model, which makes it a suitable task for neural networks.
