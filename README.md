@@ -6,7 +6,11 @@ Note that batch processing is not implemented, and each "observation" is fed to 
 
 ## XOR Example
 
-The XOR function is a nice way of testing the implementation, since it is very well known and compact. Additionally, it cannot be represented by a linear model, which makes it a suitable task for neural networks.
+The XOR function is a nice way of testing the implementation, since it is very well known and compact. Additionally, a solution cannot be represented by a linear model, which makes it a suitable task for neural networks.
+
+https://en.wikipedia.org/wiki/XOR_gate
+
+The example below uses all combinations of 0 and 1 as features, labeled with each combination's XOR function output, as the training data. 
 
 **Code**
 
@@ -19,9 +23,9 @@ double[] trainY = new double[]{0, 1, 1, 0};
 
 // initialize network with layers
 Network network = new Network();
-network.addLayer(new Dense(2, 3, new Random()));
+network.addLayer(new Dense(2, 3, new Random())); // each combination has 2 features
 network.addLayer(new Activation(new TanH()));
-network.addLayer(new Dense(3, 1, new Random()));
+network.addLayer(new Dense(3, 1, new Random())); // binary output (0 or 1)
 network.addLayer(new Activation(new Sigmoid()));
 
 // train model
@@ -56,6 +60,8 @@ accuracy based on test set of 4 items is 1.0
 
 The MNIST dataset represents thousands of handwritten digits (0-9) as 28x28 pixel grayscale images, accompanied by each respective label. The dataset is already divided into separate sets to train the model and predict digits on "new" samples.
 
+http://yann.lecun.com/exdb/mnist/
+
 **Code**
 
 ```java
@@ -75,11 +81,11 @@ image(sampleX, 28, 28);
 
 // initialize network with layers
 Network network = new Network();
-network.addLayer(new Dense(784, 256, new Xavier()));
+network.addLayer(new Dense(784, 256, new Xavier())); // each image has 28x28 = 784 pixels as features
 network.addLayer(new Activation(new TanH()));
 network.addLayer(new Dense(256, 128, new Xavier()));
 network.addLayer(new Activation(new TanH()));
-network.addLayer(new Dense(128, 10, new Xavier()));
+network.addLayer(new Dense(128, 10, new Xavier())); // categorical ouput; 10 items, each containing probability for respective digit (0-9)
 network.addLayer(new Softmax());
 
 // train model
@@ -135,9 +141,3 @@ found 10000 images with size 28x28 from the MNIST dataset
 found 10000 labels from the MNIST dataset
 accuracy based on test set of 10000 items is 0.0958 
 ```
-
-## Links
-
-**MNIST Dataset**
-
-http://yann.lecun.com/exdb/mnist/
