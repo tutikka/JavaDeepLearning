@@ -37,6 +37,15 @@ for (int i = 0; i < testY.length; i++) {
 System.out.print(String.format("accuracy based on test set of %d items is %s ", testY.length, (double) a / (double) testY.length));
 ```
 
+**Output**
+
+```
+epoch 1/1000 | average loss 0.714576
+...
+epoch 1000/1000 | average loss 0.000000
+accuracy based on test set of 4 items is 1.0 
+```
+
 ## MNSIT Example
 
 ```java
@@ -80,4 +89,39 @@ for (int i = 0; i < testY.length; i++) {
     }
 }
 System.out.print(String.format("accuracy based on test set of %d items is %s ", testY.length, (double) a / (double) testY.length));
+```
+
+**Output**
+
+```
+found 60000 images with size 28x28 from the MNIST dataset
+found 60000 labels from the MNIST dataset
+displaying sample from index 20210 with label 5
+                                        
+              ********      
+           ************     
+           ************     
+          ****              
+          ****              
+          ****              
+          ***               
+          ***               
+          ****              
+          *****             
+          *****             
+           ****             
+            ****            
+            *****           
+             ****           
+              ***           
+             ****           
+            *****           
+           ******           
+            ***             
+                                
+epoch 1/40 | average loss 2.335045
+...
+found 10000 images with size 28x28 from the MNIST dataset
+found 10000 labels from the MNIST dataset
+accuracy based on test set of 10000 items is 0.0958 
 ```
