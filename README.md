@@ -2,7 +2,13 @@
 
 A neural network implementation written in pure Java using no additional libraries. This project is mainly for educational purposes to understand how neural networks work.
 
+Note that batch processing is not implemented, and each "observation" is fed to the network separately, which makes training quite inefficient, but perhaps a little bit easier to understand. 
+
 ## XOR Example
+
+The XOR function is a nice way of testing the implementation, since it is very well known and compact. Additionally, it cannot be represented by a linear model, which makes it a suitable task for neural networks.
+
+**Code**
 
 ```java
 // initialize features as all combinations of 0 and 1
@@ -46,7 +52,11 @@ epoch 1000/1000 | average loss 0.000000
 accuracy based on test set of 4 items is 1.0 
 ```
 
-## MNSIT Example
+## MNIST Example
+
+The MNIST dataset represents thousands of handwritten digits (0-9) as 28x28 pixel grayscale images, accompanied by each respective label. The dataset is already divided into separate sets to train the model and predict digits on "new" samples.
+
+**Code**
 
 ```java
 // read image data (features) using helper method to array of images (arrays of 28x28 pixels)
@@ -125,3 +135,9 @@ found 10000 images with size 28x28 from the MNIST dataset
 found 10000 labels from the MNIST dataset
 accuracy based on test set of 10000 items is 0.0958 
 ```
+
+## Links
+
+**MNIST Dataset**
+
+http://yann.lecun.com/exdb/mnist/
