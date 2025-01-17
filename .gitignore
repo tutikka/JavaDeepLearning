@@ -31,5 +31,6 @@ bin/
 ### Data ###
 data/
 
-### Local ###
+### IntelliJ IDEA ###
 .idea/
+JavaDeepLearning.iml
