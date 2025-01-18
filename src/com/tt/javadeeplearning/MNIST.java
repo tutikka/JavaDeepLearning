@@ -93,9 +93,7 @@ public class MNIST {
         Network network = new Network();
         network.addLayer(new Dense(784, 256, new Xavier()));
         network.addLayer(new Activation(new TanH()));
-        network.addLayer(new Dense(256, 128, new Xavier()));
-        network.addLayer(new Activation(new TanH()));
-        network.addLayer(new Dense(128, 10, new Xavier()));
+        network.addLayer(new Dense(256, 10, new Xavier()));
         network.addLayer(new Softmax());
 
         // train model

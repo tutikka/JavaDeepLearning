@@ -87,9 +87,7 @@ image(sampleX, 28, 28);
 Network network = new Network();
 network.addLayer(new Dense(784, 256, new Xavier())); // each image has 28x28 = 784 pixels as features
 network.addLayer(new Activation(new TanH()));
-network.addLayer(new Dense(256, 128, new Xavier()));
-network.addLayer(new Activation(new TanH()));
-network.addLayer(new Dense(128, 10, new Xavier())); // categorical ouput; 10 items, each containing probability for respective digit (0-9)
+network.addLayer(new Dense(256, 10, new Xavier())); // categorical ouput; 10 items, each containing probability for respective digit (0-9)
 network.addLayer(new Softmax());
 
 // train model
@@ -116,32 +114,33 @@ System.out.print(String.format("accuracy based on test set of %d items is %s ", 
 ```
 found 60000 images with size 28x28 from the MNIST dataset
 found 60000 labels from the MNIST dataset
-displaying sample from index 20210 with label 5
-                                        
-              ********      
-           ************     
-           ************     
-          ****              
-          ****              
-          ****              
-          ***               
-          ***               
-          ****              
-          *****             
-          *****             
-           ****             
-            ****            
-            *****           
-             ****           
-              ***           
-             ****           
-            *****           
-           ******           
-            ***             
+displaying sample from index 48815 with label 0
                                 
-epoch 1/40 | average loss 2.335045
+               ***          
+              *****         
+             *******        
+             *******        
+             *******        
+           *********        
+           ****   ***       
+          ****    ***       
+         *****    ***       
+         ***      ***       
+        ****      ***       
+        ***       ***       
+       ****       **        
+       ***       ***        
+      ****     *****        
+      ****   ******         
+      ************          
+      ************          
+      **********            
+       *******              
+                            
+epoch 1/40 | average loss 0.979941
 ...
+epoch 40/40 | average loss 0.043388
 found 10000 images with size 28x28 from the MNIST dataset
 found 10000 labels from the MNIST dataset
-accuracy based on test set of 10000 items is 0.0958 
+accuracy based on test set of 10000 items is 0.9724 
 ```
