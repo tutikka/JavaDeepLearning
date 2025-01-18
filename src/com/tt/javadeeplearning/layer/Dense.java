@@ -14,10 +14,23 @@ public class Dense extends Layer {
 
     protected double[] bias;
 
+    /**
+     * Constructor. Uses random initialization.
+     *
+     * @param inputSize The number of input neurons
+     * @param outputSize The number of output neurons
+     */
     public Dense(int inputSize, int outputSize) {
         init(inputSize, outputSize, new com.tt.javadeeplearning.initialization.Random());
     }
 
+    /**
+     * Constructor.
+     *
+     * @param inputSize The number of input neurons
+     * @param outputSize The number of output neurons
+     * @param initialization The initialization function
+     */
     public Dense(int inputSize, int outputSize, Initialization initialization) {
         init(inputSize, outputSize, initialization);
     }

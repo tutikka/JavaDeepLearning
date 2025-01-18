@@ -11,10 +11,18 @@ public class Activation extends Layer {
 
     private int outputSize = -1;
 
+    /**
+     * Constructor. Uses TanH as the activation function.
+     */
     public Activation() {
         this.activation = new TanH();
     }
 
+    /**
+     * Constructor.
+     *
+     * @param activation The activation function
+     */
     public Activation(com.tt.javadeeplearning.activation.Activation activation) {
         this.activation = activation;
     }

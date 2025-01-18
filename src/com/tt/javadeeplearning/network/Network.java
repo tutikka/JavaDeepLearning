@@ -19,6 +19,12 @@ public class Network {
         layers.add(layer);
     }
 
+    /**
+     * Predict labels based on features.
+     *
+     * @param input The features
+     * @return The predicted labels
+     */
     public double[] predict(double[] input) {
         double[] output = input;
         for (Layer layer : layers) {
@@ -27,10 +33,43 @@ public class Network {
         return (output);
     }
 
+    /**
+     * Train the network. Uses RootMeanError as the loss function, 1000 epochs and 0.01 learning rate.
+     *
+     * Using the XOR function as an example, the features would be the combinations of 0 and 1, while the labels would be the results of each combination:
+     *
+     * <pre>
+     *     {@code
+     *     double[][] features = new double[][]{{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+     *     double[] trainY = new double[]{0, 1, 1, 0};
+     *     }
+     * </pre>
+     *
+     * @param features A vector of combinations of features
+     * @param labels A vector of labels for each respective combination of features
+     */
     public void train(double[][] features, double[] labels) {
         train(features, labels, new RootMeanError(), 1000, 0.01);
     }
 
+    /**
+     * Train the network.
+     *
+     * Using the XOR function as an example, the features would be the combinations of 0 and 1, while the labels would be the results of each combination:
+     *
+     * <pre>
+     *     {@code
+     *     double[][] features = new double[][]{{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+     *     double[] trainY = new double[]{0, 1, 1, 0};
+     *     }
+     * </pre>
+     *
+     * @param features A vector of combinations of features
+     * @param labels A vector of labels for each respective combination of features
+     * @param loss The loss function
+     * @param epochs The number of epochs
+     * @param learningRate The learning rate
+     */
     public void train(double[][] features, double[] labels, Loss loss, int epochs, double learningRate) {
         for (int e = 0; e < epochs; e++) {
             double averageLoss = 0;
