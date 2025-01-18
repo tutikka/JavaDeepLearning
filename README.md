@@ -43,6 +43,7 @@ double[] testY = trainY;
 int a = 0;
 for (int i = 0; i < testY.length; i++) {
     double t = testY[i];
+    // binary output: use probability itself as prediction
     double p = PostProcess.binaryThreshold(network.predict(testX[i])[0], 0.5);
     if (p == t) {
         a++;
@@ -101,6 +102,7 @@ double[] testY = labels("data/mnist/t10k-labels.idx1-ubyte");
 int a = 0;
 for (int i = 0; i < testY.length; i++) {
     double t = testY[i];
+    // categorical output: use label with highest probability as prediction
     double p = PostProcess.argmax(network.predict(testX[i]));
     if (p == t) {
         a++;
