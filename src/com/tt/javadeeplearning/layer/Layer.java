@@ -1,6 +1,8 @@
 package com.tt.javadeeplearning.layer;
 
-public abstract class Layer {
+import java.io.Serializable;
+
+public abstract class Layer implements Serializable {
 
     double[] input;
 

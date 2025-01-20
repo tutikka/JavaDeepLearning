@@ -1,6 +1,8 @@
 package com.tt.javadeeplearning.activation;
 
-public class ReLu implements Activation {
+import java.io.Serializable;
+
+public class ReLu implements Activation, Serializable {
 
     @Override
     public double activate(double d) {
@@ -10,6 +12,10 @@ public class ReLu implements Activation {
     @Override
     public double gradient(double d) {
         return (d > 0 ? 1 : 0);
+    }
+
+    public String toString() {
+        return ("ReLu");
     }
 
 }

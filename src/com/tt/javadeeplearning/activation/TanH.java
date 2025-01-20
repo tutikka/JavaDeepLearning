@@ -1,6 +1,8 @@
 package com.tt.javadeeplearning.activation;
 
-public class TanH implements Activation {
+import java.io.Serializable;
+
+public class TanH implements Activation, Serializable {
 
     @Override
     public double activate(double d) {
@@ -11,4 +13,9 @@ public class TanH implements Activation {
     public double gradient(double d) {
         return ((1 - Math.pow(d, 2)));
     }
+
+    public String toString() {
+        return ("TanH");
+    }
+
 }

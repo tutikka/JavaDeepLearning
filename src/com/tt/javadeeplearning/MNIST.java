@@ -99,6 +99,12 @@ public class MNIST {
         // train model
         network.train(trainX, trainY, new CategoricalCrossEntropy(), 40, 0.01);
 
+        // save model to file
+        network.save(new File("mnist.ser"));
+
+        // load model from file
+        network = Network.load(new File("mnist.ser"));
+
         // read new set of images and labels to test with
         double[][] testX = images("data/mnist/t10k-images.idx3-ubyte");
         double[] testY = labels("data/mnist/t10k-labels.idx1-ubyte");

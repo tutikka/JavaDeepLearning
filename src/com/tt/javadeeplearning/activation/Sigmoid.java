@@ -1,6 +1,8 @@
 package com.tt.javadeeplearning.activation;
 
-public class Sigmoid implements Activation {
+import java.io.Serializable;
+
+public class Sigmoid implements Activation, Serializable {
 
     @Override
     public double activate(double d) {
@@ -12,4 +14,9 @@ public class Sigmoid implements Activation {
         double result = activate(d);
         return (result * (1 - result));
     }
+
+    public String toString() {
+        return ("Sigmoid");
+    }
+
 }

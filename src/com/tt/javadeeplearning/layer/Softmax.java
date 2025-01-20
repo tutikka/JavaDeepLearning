@@ -40,4 +40,10 @@ public class Softmax extends Layer {
         }
         return (input);
     }
+
+    @Override
+    public String toString() {
+        return (String.format("Softmax"));
+    }
+
 }

@@ -4,10 +4,11 @@ import com.tt.javadeeplearning.layer.Layer;
 import com.tt.javadeeplearning.loss.Loss;
 import com.tt.javadeeplearning.loss.RootMeanError;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Network {
+public class Network implements Serializable {
 
     private List<Layer> layers;
 
@@ -17,6 +18,26 @@ public class Network {
 
     public void addLayer(Layer layer) {
         layers.add(layer);
+    }
+
+    public void save(File file) {
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file, false));
+            out.writeObject(this);
+            out.close();
+        } catch (Exception e) {
+        }
+    }
+
+    public static Network load(File file) {
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+            Network network = (Network) in.readObject();
+            in.close();
+            return (network);
+        } catch (Exception e) {
+            return (null);
+        }
     }
 
     /**
@@ -88,6 +109,16 @@ public class Network {
             averageLoss /= features.length;
             System.out.println(String.format("epoch %d/%d | average loss %f", (e + 1), epochs, averageLoss));
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Layer layer : layers) {
+            sb.append(layer);
+            sb.append("\n");
+        }
+        return (sb.toString());
     }
 
 }

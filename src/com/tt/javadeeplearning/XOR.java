@@ -9,6 +9,8 @@ import com.tt.javadeeplearning.loss.BinaryCrossEntropy;
 import com.tt.javadeeplearning.network.Network;
 import com.tt.javadeeplearning.postprocess.PostProcess;
 
+import java.io.File;
+
 public class XOR {
 
     public static void main(String[] args) {
@@ -28,6 +30,13 @@ public class XOR {
 
         // train model
         network.train(trainX, trainY, new BinaryCrossEntropy(), 1000, 0.1);
+
+        // save model to file
+        network.save(new File("xor.ser"));
+
+        // load model from file
+        network = Network.load(new File("xor.ser"));
+        System.out.println(network);
 
         // use train set as test set (mainly for checking that code is ok)
         double[][] testX = trainX;

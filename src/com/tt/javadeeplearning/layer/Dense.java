@@ -10,6 +10,8 @@ public class Dense extends Layer {
 
     private int outputSize = -1;
 
+    private Initialization initialization;
+
     protected double[][] weights;
 
     protected double[] bias;
@@ -21,7 +23,8 @@ public class Dense extends Layer {
      * @param outputSize The number of output neurons
      */
     public Dense(int inputSize, int outputSize) {
-        init(inputSize, outputSize, new com.tt.javadeeplearning.initialization.Random());
+        initialization = new com.tt.javadeeplearning.initialization.Random();
+        init(inputSize, outputSize);
     }
 
     /**
@@ -32,10 +35,11 @@ public class Dense extends Layer {
      * @param initialization The initialization function
      */
     public Dense(int inputSize, int outputSize, Initialization initialization) {
-        init(inputSize, outputSize, initialization);
+        this.initialization = initialization;
+        init(inputSize, outputSize);
     }
 
-    private void init(int inputSize, int outputSize, Initialization initialization) {
+    private void init(int inputSize, int outputSize) {
         Random random = new Random();
         this.inputSize = inputSize;
         this.outputSize = outputSize;
@@ -74,6 +78,11 @@ public class Dense extends Layer {
             bias[y] -= gradient[y] * learningRate;
         }
         return (result);
+    }
+
+    @Override
+    public String toString() {
+        return (String.format("Dense (input size = %d, output size = %d, initialization = %s)", inputSize, outputSize, initialization));
     }
 
 }

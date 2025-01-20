@@ -48,4 +48,9 @@ public class Activation extends Layer {
         return (result);
     }
 
+    @Override
+    public String toString() {
+        return (String.format("Activation (function = %s)", activation));
+    }
+
 }
