@@ -1,11 +1,13 @@
 package com.tt.javadeeplearning;
 
+import com.tt.javadeeplearning.activation.ReLu;
 import com.tt.javadeeplearning.activation.TanH;
 import com.tt.javadeeplearning.initialization.Xavier;
 import com.tt.javadeeplearning.layer.Activation;
 import com.tt.javadeeplearning.layer.Dense;
 import com.tt.javadeeplearning.layer.Softmax;
 import com.tt.javadeeplearning.loss.CategoricalCrossEntropy;
+import com.tt.javadeeplearning.metrics.Metrics;
 import com.tt.javadeeplearning.network.Network;
 import com.tt.javadeeplearning.postprocess.PostProcess;
 
@@ -60,19 +62,44 @@ public class IRIS {
             List<double[]> l = new ArrayList<>();
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
             String line;
+            double maxSepalLength = 0;
+            double maxSepalWidth = 0;
+            double maxPetalLength = 0;
+            double maxPetalWidth = 0;
             while ((line = br.readLine()) != null) {
                 if (line.isEmpty()) {
                     continue;
                 }
                 double sepalLength = Double.parseDouble(line.split(",")[0]);
-                double sepalWidth = Double.parseDouble(line.split(",")[1]) ;
+                if (sepalLength > maxSepalLength) {
+                    maxSepalLength = sepalLength;
+                }
+                double sepalWidth = Double.parseDouble(line.split(",")[1]);
+                if (sepalWidth > maxSepalWidth) {
+                    maxSepalWidth = sepalWidth;
+                }
                 double petalLength = Double.parseDouble(line.split(",")[2]);
+                if (petalLength > maxPetalLength) {
+                    maxPetalLength = petalLength;
+                }
                 double petalWidth = Double.parseDouble(line.split(",")[3]);
+                if (petalWidth > maxPetalWidth) {
+                    maxPetalWidth = petalWidth;
+                }
                 l.add(new double[]{sepalLength, sepalWidth, petalLength, petalWidth});
             }
+            System.out.println(String.format("max sepal length %f", maxSepalLength));
+            System.out.println(String.format("max sepal width %f", maxSepalWidth));
+            System.out.println(String.format("max petal length %f", maxPetalLength));
+            System.out.println(String.format("max petal width %f", maxPetalWidth));
             double[][] d = new double[l.size()][];
             for (int i = 0; i < d.length; i++) {
-                d[i] = l.get(i);
+                double[] f = l.get(i);
+                f[0] /= maxSepalLength;
+                f[1] /= maxSepalWidth;
+                f[2] /= maxPetalLength;
+                f[3] /= maxPetalWidth;
+                d[i] = f;
             }
             return (d);
         } catch (Exception e) {
@@ -91,12 +118,16 @@ public class IRIS {
         double[] trainY = Arrays.stream(labels, 0, split).toArray();
 
         Network network = new Network();
-        network.addLayer(new Dense(4, 8, new Xavier()));
-        network.addLayer(new Activation(new TanH()));
+        network.addLayer(new Dense(4, 32, new Xavier()));
+        network.addLayer(new Activation(new ReLu()));
+        network.addLayer(new Dense(32, 16, new Xavier()));
+        network.addLayer(new Activation(new ReLu()));
+        network.addLayer(new Dense(16, 8, new Xavier()));
+        network.addLayer(new Activation(new ReLu()));
         network.addLayer(new Dense(8, 3, new Xavier()));
         network.addLayer(new Softmax());
 
-        network.train(trainX, trainY, new CategoricalCrossEntropy(), 1000, 0.01);
+        network.train(trainX, trainY, new CategoricalCrossEntropy(), 100, 0.01);
 
         network.save(new File("iris.ser"));
 
@@ -106,15 +137,11 @@ public class IRIS {
         double[][] testX = Arrays.stream(features, split, labels.length).toArray(double[][]::new);
         double[] testY = Arrays.stream(labels, split, labels.length).toArray();
 
-        int a = 0;
+        double[] predictedY = new double[testY.length];
         for (int i = 0; i < testY.length; i++) {
-            double t = testY[i];
-            double p = PostProcess.argmax(network.predict(testX[i]));
-            if (p == t) {
-                a++;
-            }
+            predictedY[i] = PostProcess.argmax(network.predict(testX[i]));
         }
-        System.out.print(String.format("accuracy based on test set of %d items is %s ", testY.length, (double) a / (double) testY.length));
+        System.out.print(String.format("accuracy based on test set of %d items is %s ", testY.length, Metrics.accuracy(testY, predictedY)));
     }
 
 }
