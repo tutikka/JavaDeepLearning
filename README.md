@@ -61,6 +61,67 @@ epoch 1000/1000 | average loss 0.000000
 accuracy based on test set of 4 items is 1.0 
 ```
 
+## Iris Example
+
+**Code**
+
+```java
+double[][] features = features("data/iris/iris.data");
+double[] labels = labels("data/iris/iris.data");
+
+int split = (int) (labels.length * 0.8);
+
+double[][] trainX = Arrays.stream(features, 0, split).toArray(double[][]::new);
+double[] trainY = Arrays.stream(labels, 0, split).toArray();
+
+Network network = new Network();
+network.addLayer(new Dense(4, 32, new Xavier()));
+network.addLayer(new Activation(new ReLu()));
+network.addLayer(new Dense(32, 16, new Xavier()));
+network.addLayer(new Activation(new ReLu()));
+network.addLayer(new Dense(16, 8, new Xavier()));
+network.addLayer(new Activation(new ReLu()));
+network.addLayer(new Dense(8, 3, new Xavier()));
+network.addLayer(new Softmax());
+
+network.train(trainX, trainY, new CategoricalCrossEntropy(), 100, 0.01);
+
+network.save(new File("iris.ser"));
+
+network = Network.load(new File("iris.ser"));
+System.out.println(network);
+
+double[][] testX = Arrays.stream(features, split, labels.length).toArray(double[][]::new);
+double[] testY = Arrays.stream(labels, split, labels.length).toArray();
+
+double[] predictedY = new double[testY.length];
+for (int i = 0; i < testY.length; i++) {
+    predictedY[i] = PostProcess.argmax(network.predict(testX[i]));
+}
+System.out.print(String.format("accuracy based on test set of %d items is %s ", testY.length, Metrics.accuracy(testY, predictedY)));
+```
+
+**Output**
+
+```
+max sepal length 7.900000
+max sepal width 4.400000
+max petal length 6.900000
+max petal width 2.500000
+epoch 1/100 | average loss 0.933290
+...
+epoch 100/100 | average loss 0.143359
+Dense (input size = 4, output size = 32, initialization = Xavier)
+Activation (function = ReLu)
+Dense (input size = 32, output size = 16, initialization = Xavier)
+Activation (function = ReLu)
+Dense (input size = 16, output size = 8, initialization = Xavier)
+Activation (function = ReLu)
+Dense (input size = 8, output size = 3, initialization = Xavier)
+Softmax
+accuracy based on test set of 30 items is 1.0 
+```
+
 ## MNIST Example
 
 The MNIST dataset represents thousands of handwritten digits (0-9) as 28x28 pixel grayscale images, accompanied by each respective label. The dataset is already divided into separate sets to train the model and predict digits on "new" samples.
