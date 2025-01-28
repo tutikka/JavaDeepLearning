@@ -109,14 +109,22 @@ public class IRIS {
 
     public static void main(String[] args) {
 
+        // read features (sepal length and width, petal length and width) using helper
         double[][] features = features("data/iris/iris.data");
+
+        // read respective labels (setosa, verticolor or virginica)
         double[] labels = labels("data/iris/iris.data");
 
+        // split into train and test sets
         int split = (int) (labels.length * 0.8);
 
+        // train features
         double[][] trainX = Arrays.stream(features, 0, split).toArray(double[][]::new);
+
+        // train labels
         double[] trainY = Arrays.stream(labels, 0, split).toArray();
 
+        // initialize netowork with layers (first input size represents 4 features, last output 3 labels)
         Network network = new Network();
         network.addLayer(new Dense(4, 32, new Xavier()));
         network.addLayer(new Activation(new ReLu()));
@@ -127,16 +135,21 @@ public class IRIS {
         network.addLayer(new Dense(8, 3, new Xavier()));
         network.addLayer(new Softmax());
 
+        // train model
         network.train(trainX, trainY, new CategoricalCrossEntropy(), 100, 0.01);
 
+        // save trained model (example if reusing trained model)
         network.save(new File("iris.ser"));
 
+        // load saved model
         network = Network.load(new File("iris.ser"));
         System.out.println(network);
 
+        // test features and labels based on train/test split
         double[][] testX = Arrays.stream(features, split, labels.length).toArray(double[][]::new);
         double[] testY = Arrays.stream(labels, split, labels.length).toArray();
 
+        // predict label for each set of test features, and calculate accuracy
         double[] predictedY = new double[testY.length];
         for (int i = 0; i < testY.length; i++) {
             predictedY[i] = PostProcess.argmax(network.predict(testX[i]));
