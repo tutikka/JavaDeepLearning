@@ -235,6 +235,8 @@ The Fashion-MNIST dataset is a drop-in replacement to the MNIST dataset, contain
 
 https://github.com/zalandoresearch/fashion-mnist
 
+**Code**
+
 ```java
 // read image data (features) using helper method to array of images (arrays of 28x28 pixels)
 double[][] trainX = images("data/fashion-mnist/train-images-idx3-ubyte");
@@ -277,6 +279,8 @@ for (int i = 0; i < testY.length; i++) {
 }
 System.out.print(String.format("accuracy based on test set of %d items is %s ", testY.length, Metrics.accuracy(testY, predictedY)));
 ```
+
+**Output**
 
 ```
 found 60000 images with size 28x28 from the Fashion-MNIST dataset
