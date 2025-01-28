@@ -14,7 +14,7 @@ public class PostProcess {
         return (result);
     }
 
-    public static double binaryThreshold(double d, double t) {
+    public static int binaryThreshold(double d, double t) {
         return (d > t ? 1 : 0);
     }
 

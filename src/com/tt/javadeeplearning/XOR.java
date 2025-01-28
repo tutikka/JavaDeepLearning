@@ -6,6 +6,7 @@ import com.tt.javadeeplearning.initialization.Random;
 import com.tt.javadeeplearning.layer.Activation;
 import com.tt.javadeeplearning.layer.Dense;
 import com.tt.javadeeplearning.loss.BinaryCrossEntropy;
+import com.tt.javadeeplearning.metrics.Metrics;
 import com.tt.javadeeplearning.network.Network;
 import com.tt.javadeeplearning.postprocess.PostProcess;
 
@@ -42,16 +43,13 @@ public class XOR {
         double[][] testX = trainX;
         double[] testY = trainY;
 
-        // use model to predict XOR result for each combination of 0 and 1 in test set and calculate accuracy
-        int a = 0;
+        // predict label for each set of test features, and calculate accuracy
+        int[] predictedY = new int[testY.length];
         for (int i = 0; i < testY.length; i++) {
-            double t = testY[i];
-            double p = PostProcess.binaryThreshold(network.predict(testX[i])[0], 0.5);
-            if (p == t) {
-                a++;
-            }
+            predictedY[i] = PostProcess.binaryThreshold(network.predict(testX[i])[0], 0.5);
         }
-        System.out.print(String.format("accuracy based on test set of %d items is %s ", testY.length, (double) a / (double) testY.length));
+        System.out.println(String.format("accuracy based on test set of %d items is %s ", testY.length, Metrics.accuracy(testY, predictedY)));
+        System.out.println(String.format("binary precision based on test set of %d items is %s ", testY.length, Metrics.binaryPrecision(testY, predictedY)));
 
     }
 

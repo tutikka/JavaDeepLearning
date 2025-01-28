@@ -119,11 +119,13 @@ public class FashionMNIST {
         double[] testY = labels("data/fashion-mnist/t10k-labels-idx1-ubyte");
 
         // predict label for each set of test features, and calculate accuracy
-        double[] predictedY = new double[testY.length];
+        int[] predictedY = new int[testY.length];
         for (int i = 0; i < testY.length; i++) {
             predictedY[i] = PostProcess.argmax(network.predict(testX[i]));
         }
-        System.out.print(String.format("accuracy based on test set of %d items is %s ", testY.length, Metrics.accuracy(testY, predictedY)));
+        System.out.println(String.format("accuracy based on test set of %d items is %s ", testY.length, Metrics.accuracy(testY, predictedY)));
+        System.out.println(String.format("weighted precision based on test set of %d items is %s ", testY.length, Metrics.weightedPrecision(testY, predictedY, 10)));
+        System.out.println(String.format("macro precision based on test set of %d items is %s ", testY.length, Metrics.macroPrecision(testY, predictedY, 10)));
 
     }
 
