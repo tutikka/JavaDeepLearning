@@ -228,3 +228,94 @@ found 10000 images with size 28x28 from the MNIST dataset
 found 10000 labels from the MNIST dataset
 accuracy based on test set of 10000 items is 0.9724 
 ```
+
+## Fashion-MNIST
+
+The Fashion-MNIST dataset is a drop-in replacement to the MNIST dataset, containing images (and labels) from Zalando's articles.
+
+https://github.com/zalandoresearch/fashion-mnist
+
+```java
+// read image data (features) using helper method to array of images (arrays of 28x28 pixels)
+double[][] trainX = images("data/fashion-mnist/train-images-idx3-ubyte");
+
+// read labels (0-9) for each respective image
+double[] trainY = labels("data/fashion-mnist/train-labels-idx1-ubyte");
+
+// display random image (and label) to check if our input is ok
+Random random = new Random();
+int sampleIndex = random.nextInt(0, trainY.length - 1);
+double[] sampleX = trainX[sampleIndex];
+double sampleY = trainY[sampleIndex];
+System.out.println(String.format("displaying sample from index %d with label %d", sampleIndex, (int) sampleY));
+image(sampleX, 28, 28);
+
+// initialize network with layers
+Network network = new Network();
+network.addLayer(new Dense(784, 256, new Xavier()));
+network.addLayer(new Activation(new TanH()));
+network.addLayer(new Dense(256, 10, new Xavier()));
+network.addLayer(new Softmax());
+
+// train model
+network.train(trainX, trainY, new CategoricalCrossEntropy(), 100, 0.01);
+
+// save model to file
+network.save(new File("fashion-mnist.ser"));
+
+// load model from file
+network = Network.load(new File("fashion-mnist.ser"));
+
+// read new set of images and labels to test with
+double[][] testX = images("data/fashion-mnist/t10k-images-idx3-ubyte");
+double[] testY = labels("data/fashion-mnist/t10k-labels-idx1-ubyte");
+
+// predict label for each set of test features, and calculate accuracy
+double[] predictedY = new double[testY.length];
+for (int i = 0; i < testY.length; i++) {
+    predictedY[i] = PostProcess.argmax(network.predict(testX[i]));
+}
+System.out.print(String.format("accuracy based on test set of %d items is %s ", testY.length, Metrics.accuracy(testY, predictedY)));
+```
+
+```
+found 60000 images with size 28x28 from the Fashion-MNIST dataset
+found 60000 labels from the Fashion-MNIST dataset
+displaying sample from index 43290 with label 3
+
+            o.              
+            o...            
+          ooo...            
+         oooo .. ..         
+         o.oo ..  .         
+        .o .O.... ..        
+        oo  O.... ..        
+        oo  O...   .        
+        o. .o....  ..       
+       oo  o..o..  ..       
+      oo.  o..o..  o .      
+        .  Oo.o..           
+           oo.o...          
+          .oo.o...          
+          .ooooo..          
+          .ooooo..          
+          .ooooo..          
+          .oOooo..          
+          ooOooo..          
+          .oOooo..          
+          .oOooo.o          
+          oOOoo..o          
+          oOooo...          
+          oOooo....         
+          oOooooo..         
+          oOo.ooo..         
+         .oOooOoo..         
+          oOo.o ...     
+              
+epoch 1/100 | average loss 1.885077
+...
+epoch 100/100 | average loss 0.352373
+found 10000 images with size 28x28 from the Fashion-MNIST dataset
+found 10000 labels from the Fashion-MNIST dataset
+accuracy based on test set of 10000 items is 0.8698 
+```
