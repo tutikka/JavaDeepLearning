@@ -1,3 +1,5 @@
+package com.tt.javadeeplearning;
+
 import com.tt.javadeeplearning.layer.Dense;
 import com.tt.javadeeplearning.layer.Dropout;
 import com.tt.javadeeplearning.layer.LSTM;
