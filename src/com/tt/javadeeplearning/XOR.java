@@ -5,6 +5,7 @@ import com.tt.javadeeplearning.activation.TanH;
 import com.tt.javadeeplearning.initialization.Random;
 import com.tt.javadeeplearning.layer.Activation;
 import com.tt.javadeeplearning.layer.Dense;
+import com.tt.javadeeplearning.layer.Dropout;
 import com.tt.javadeeplearning.loss.BinaryCrossEntropy;
 import com.tt.javadeeplearning.metrics.Metrics;
 import com.tt.javadeeplearning.network.Network;
@@ -30,7 +31,9 @@ public class XOR {
         network.addLayer(new Activation(new Sigmoid()));
 
         // train model
+        network.setTrain(true);
         network.train(trainX, trainY, new BinaryCrossEntropy(), 1000, 0.1);
+        network.setTrain(false);
 
         // save model to file
         network.save(new File("xor.ser"));

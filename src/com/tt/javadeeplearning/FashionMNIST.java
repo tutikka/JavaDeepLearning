@@ -106,13 +106,14 @@ public class FashionMNIST {
         network.addLayer(new Softmax());
 
         // train model
-        network.train(trainX, trainY, new CategoricalCrossEntropy(), 100, 0.01);
+        network.train(trainX, trainY, new CategoricalCrossEntropy(), 50, 0.005);
 
         // save model to file
         network.save(new File("fashion-mnist.ser"));
 
         // load model from file
         network = Network.load(new File("fashion-mnist.ser"));
+        System.out.println(network);
 
         // read new set of images and labels to test with
         double[][] testX = images("data/fashion-mnist/t10k-images-idx3-ubyte");

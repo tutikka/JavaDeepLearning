@@ -1,5 +1,6 @@
 package com.tt.javadeeplearning.network;
 
+import com.tt.javadeeplearning.layer.Dropout;
 import com.tt.javadeeplearning.layer.Layer;
 import com.tt.javadeeplearning.loss.Loss;
 import com.tt.javadeeplearning.loss.RootMeanError;
@@ -37,6 +38,14 @@ public class Network implements Serializable {
             return (network);
         } catch (Exception e) {
             return (null);
+        }
+    }
+
+    public void setTrain(boolean train) {
+        for (Layer layer : layers) {
+            if (layer instanceof Dropout) {
+                ((Dropout) layer).setTrain(train);
+            }
         }
     }
 
