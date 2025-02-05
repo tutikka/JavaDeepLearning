@@ -39,7 +39,7 @@ public class Dropout extends Layer {
                 gradient[i] *= mask[i];
             }
         }
-        return gradient;
+        return (gradient);
     }
 
     @Override
